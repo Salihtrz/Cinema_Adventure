@@ -1,0 +1,399 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+@model IEnumerable<EntityLayer.Class.Movie>
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Film-Review-Movie-Database/css/plugins.css">
+<link rel="stylesheet" href="~/js/site.js">
+<body>
+    <div class="hero mv-single-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                </div>
+            </div>
+        </div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="page-single movie-single movie_single" >
+            <div class="container">
+                <div class="row ipad-width2">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <div class="movie-img sticky-sb">
+                            <img src="@item.MoviePicture" alt="">
+                            <div class="movie-btn">
+                                <div class="btn-transform transform-vertical red">
+                                    <div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
+                                    <div><a href="@item.VideoLink" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <div class="movie-single-ct main-content">
+                            <h1 class="bd-hd"><a class="text-white opacity-75-onHover">@item.MovieName</a> <span><a class="ml-1">@(((DateTime)item.ReleaseDate).ToString("yyyy"))</a></span></h1>
+                            <div class="movie-rate">
+                                <div class="rate">
+                                    <i class="ion-android-star"></i>
+                                    @{
+                                        int? totalvote = 0;
+                                        int? totalscore = 0;
+                                        @foreach (var review in item.Reviews)
+                                        {
+                                            totalvote++;
+                                            totalscore = totalscore + review.VoteGiven;
+
+                                        }
+                                        double? averagescore = 0;
+                                        @if (totalvote == 0)
+                                        {
+                                            averagescore = 0;
+                                        }
+                                        else
+                                        {
+                                            averagescore = totalscore / totalvote;
+                                        }
+                                    }
+                                    <p>
+                                        <span>@averagescore</span> /10<br>
+                                        <span class="rv">@item.Reviews.Where(i => i.Visibility == true).Count() Reviews</span>
+                                    </p>
+                                </div>
+                                <div class="rate-star">
+                                    <p>Rate This Movie:  </p>
+                                    @for (int i = 1; i <= averagescore; i++)
+                                    {
+                                        <i class="ion-ios-star @(i >= averagescore ? "active" : "")"></i>
+                                    }
+                                </div>
+                            </div>
+                            <div class="movie-tabs">
+                                <div class="tabs">
+                                    <ul class="tab-links tabs-mv">
+                                        <li><a href="#overview">Overview</a></li>
+                                        <li><a href="#reviews"> Reviews</a></li>
+                                        <li><a href="#cast">  Cast </a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="overview" class="tab active">
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-12 col-xs-12">
+                                                    <p>@item.MovieContent</p>
+                                                    <div class="title-hd-sm">
+                                                        <h4>cast</h4>
+                                                    </div>
+
+                                                    <div class="mvcast-item">
+                                                        <div class="cast-it">
+                                                            <div class="cast-left">
+
+                                                                @if (item.MovieCasts != null && item.MovieCasts.Any())
+                                                                {
+                                                                    <ul>
+                                                                        @foreach (var cast in item.MovieCasts.Take(5))
+                                                                        {
+                                                                            <br />
+                                                                            <picture style="display:flex; align-items:center">
+                                                                                <img style="width:40px; height:40px; background-size: contain"
+                                                                                     src=@cast.casts.CastPicture alt="">
+                                                                                <div style="margin-left: 10px">
+                                                                            <li> <a href="#"> @cast.casts.CastName @cast.casts.CastSurname</a></li>
+                                                                    </div>
+                                                                    </picture>
+                                                                        }
+                                                                </ul>
+                                                                }
+                                                                else
+                                                                {
+                                                                <span>NULL</span>
+                                                                }
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="title-hd-sm">
+                                                    <h4>User reviews</h4>
+                                                    <a href="#reviews" class="time" onclick="document.querySelector('.tab-links.tabs-mv li:nth-child(2) a').click();">See All @item.Reviews.Where(i => i.Visibility == true).Count() Reviews <i class="ion-ios-arrow-right"></i></a>
+                                                </div>
+                                                    @if (item.Reviews != null && item.Reviews.Any())
+                                                    {
+                                                        @foreach (var review in item.Reviews.Where(review => review.Visibility == true).Take(2))
+                                                        {
+                                                            if(review.Visibility == true)
+                                                            {
+                                                            <div class="mv-user-review-item">
+                                                                <div class="user-infor">
+                                                                    <img src="~/Film-Review-Movie-Database/images/uploads/userava1.jpg" alt="">
+                                                                    <div>
+                                                                        <h3>@review.ReviewTitle</h3>
+                                                                        <div class="no-star">
+                                                                                @for (int i = 0; i <= 10; i++)
+                                                                                {
+                                                                                <span class="star @(i >= review.VoteGiven ? "active" : "")"><i class="ion-android-star"></i></span>
+                                                                                }
+                                                                        </div>
+
+                                                                            @if (review.users != null)
+                                                                            {
+                                                                            <p class="time">
+                                                                                Written by @review.users.UserName on @review.SendingDate
+                                                                            </p>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                            <p class="time">
+                                                                                Written by Unknown User on @review.SendingDate
+                                                                            </p>
+                                                                            }
+                                                                    </div>
+                                                                </div>
+                                                                <p>@review.ReviewContent</p>
+                                                            </div>
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                    <span>NULL</span>
+                                                    }
+                                            </div>
+                                            <div class="col-md-4 col-xs-12 col-sm-12">
+                                                <div class="sb-it">
+                                                    <h6>Category:</h6>
+                                                        @foreach(var category in item.MovieCategories)
+                                                        {
+                                                        <p><a class="ml-1">@category.categorys.CategoryName</a></p>
+                                                        }
+                                                </div>
+                                                <div class="sb-it">
+                                                    <h6>Release Date:</h6>
+                                                    <p><a class="ml-1">@(((DateTime)item.ReleaseDate).ToString("yyyy-MM-dd HH:mm:ss"))</a></p>
+                                                </div>
+                                                <div class="sb-it">
+                                                    <h6>Run Time:</h6>
+                                                    <p>@item.MovieRunTime Minute</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="reviews" class="tab review">
+                                        <div class="row">
+
+                                            <div class="rv-hd">
+                                                <div class="div">
+                                                    <h2>@item.MovieName</h2>
+                                                </div>
+                                                    @if (HttpContextAccessor.HttpContext.Session.GetInt32("UserId") != null)
+                                                    {
+                                                    <button type="button" class="redbtn" data-toggle="modal" data-target="#Modal1">Write Review</button>
+                                                    }
+                                                    @if (HttpContextAccessor.HttpContext.Session.GetInt32("UserId") == null)
+                                                    {
+                                                    <div class="alert alert-danger">
+                                                        <strong>Yorum yapabilmek için giriş yapmalısınız.</strong> Hesabınız yoksa,
+                                                        <a href="/Users/Register/" class="alert-link">lütfen kayıt olun.</a>
+                                                        Veya
+                                                        <a href="/Users/Login/" class="alert-link">Giriş yapın.</a>
+                                                    </div>
+                                                    }
+                                            </div>
+                                            <div class="modal" id="Modal1">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h2 class="modal-title">Comment</h2>
+                                                        </div>
+                                                        <form method="post" asp-controller="Reviews" asp-action="Create">
+                                                            <div class="modal-body">
+                                                                <label>Title</label>
+                                                                <input type="text" name="ReviewTitle" class="form-control" required>
+                                                                <label>Content</label>
+                                                                <textarea name="ReviewContent" class="form-control" rows="4" required></textarea>
+                                                                <label>Give Vote</label>
+
+                                                                <div class="star-container">
+                                                                        @for (int i = 1; i <= 10; i++)
+                                                                        {
+                                                                        <span class="star" data-value="@i"><i class="ion-android-star"></i></span>
+                                                                        }
+                                                                </div>
+                                                                <input type="hidden" name="VoteGiven" id="VoteGiven" value="0">
+                                                                <input type="hidden" name="MovieId" value="@item.MovieId">
+                                                                <input type="hidden" name="SendingDate" id="SendingDate" value="">
+                                                                <input type="hidden" name="UserId" id="UserId" value="">
+                                                                <div>
+                                                                    <button type="submit" class="btn btn-info" style="margin-top:20px;">Comment</button>
+                                                                    <button type="button" class="btn btn-danger" style="margin-top:20px;" data-dismiss="modal">Cancel</button>
+                                                                </div>
+
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="topbar-filter">
+                                                <p>Found <span>@item.Reviews.Where(i => i.Visibility == true).Count() Reviews</span> in total</p>
+                                            </div>
+                                                @{
+                                                    int commentCount = 0;
+                                                }
+                                                @foreach (var review in item.Reviews)
+                                                {
+                                                    if (review.Visibility == true)
+                                                    {
+                                                    <div class="mv-user-review-item">
+                                                        <div class="user-infor">
+                                                            <img src="~/Film-Review-Movie-Database/images/uploads/userava1.jpg" alt="">
+                                                            <div>
+                                                                    @{
+                                                                        var now = DateTime.Now;
+                                                                        var sendingDate = review.SendingDate;
+                                                                        TimeSpan? timeDifference = now - sendingDate;
+
+                                                                        string readableTimeDifference = "Just now";
+                                                                        if (timeDifference.HasValue)
+                                                                        {
+                                                                            if (timeDifference.Value.Days > 0)
+                                                                            {
+                                                                                readableTimeDifference = $"{timeDifference.Value.Days} days ago";
+                                                                            }
+                                                                            else if (timeDifference.Value.Hours > 0)
+                                                                            {
+                                                                                readableTimeDifference = $"{timeDifference.Value.Hours} hours ago";
+                                                                            }
+                                                                            else if (timeDifference.Value.Minutes > 0)
+                                                                            {
+                                                                                readableTimeDifference = $"{timeDifference.Value.Minutes} minutes ago";
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                <h3>@review.ReviewTitle</h3>
+                                                                <div class="no-star">
+                                                                        @for (int i = 0; i <= 10; i++)
+                                                                        {
+                                                                            @if (review.VoteGiven != 0)
+                                                                            {
+                                                                            <span class="star @(i >= review.VoteGiven ? "active" : "")"><i class="ion-android-star"></i></span>
+                                                                            }
+                                                                        }
+                                                                </div>
+
+                                                                    @if (review.users != null)
+                                                                    {
+                                                                    <p class="time">
+                                                                        Written by @review.users.UserName on @sendingDate (Posted @readableTimeDifference)
+                                                                    </p>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                    <p class="time">
+                                                                        Written by Unknown User on @sendingDate (Posted @readableTimeDifference)
+                                                                    </p>
+                                                                    }
+                                                            </div>
+                                                        </div>
+                                                        <p>@review.ReviewContent</p>
+                                                    </div>
+                                                        commentCount++;
+                                                        @* if (commentCount % 5 == 0)
+                                                        {
+                                                            @if (item.Reviews.Count() > 5)
+                                                            {
+                                                            <div class="pagination">
+                                                                <div class="topbar-filter" id="reviews">
+                                                                    <div class="pagination2">
+                                                                        <span>Page @ViewBag.CurrentPage of @ViewBag.TotalPages:</span>
+                                                                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                                                            {
+                                                                            <a class="@(i == ViewBag.CurrentPage ? "active" : "")" href="@Url.Action("Details", new { id = ViewBag.Movie.MovieId, page = i, pageSize = ViewBag.PageSize })">@i</a>
+                                                                            }
+                                                                            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                                                                            {
+                                                                            <a href="@Url.Action("Details", new { id = ViewBag.Movie.MovieId, page = ViewBag.CurrentPage + 1, pageSize = ViewBag.PageSize })"><i class="ion-arrow-right-b"></i></a>
+                                                                            }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            }
+                                                        } *@
+                                                    }
+
+                                                }
+                                                @if (ViewBag.TotalPages > 1)
+                                                {
+                                                <div class="topbar-filter" >
+                                                    <div class="pagination2">
+                                                        <span>Page @ViewBag.CurrentPage of @ViewBag.TotalPages:</span>
+                                                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                                            {
+                                                            <a class="@(i == ViewBag.CurrentPage ? "active" : "")" href="@Url.Action("Details", new { id = ViewBag.Movie.MovieId, page = i, pageSize = ViewBag.PageSize })">@i</a>
+                                                            }
+                                                            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                                                            {
+                                                            <a href="@Url.Action("Details", new { id = ViewBag.Movie.MovieId, page = ViewBag.CurrentPage + 1, pageSize = ViewBag.PageSize })"><i class="ion-arrow-right-b"></i></a>
+                                                            }
+                                                    </div>
+                                                </div>
+                                                }
+                                        </div>
+                                    </div>
+
+
+                                    <div id="cast" class="tab">
+                                        <div class="row">
+                                            <h2>@item.MovieName</h2>
+                                            <div class="title-hd-sm">
+                                                <h4>Cast</h4>
+                                            </div>
+                                            <div class="mvcast-item">
+                                                <div class="cast-it">
+                                                    <div class="cast-left">
+                                                            @if (item.MovieCasts != null && item.MovieCasts.Any())
+                                                            {
+                                                            <ul>
+                                                                    @foreach (var cast in item.MovieCasts)
+                                                                    {
+                                                                    <br />
+                                                                    <picture style="display:flex; align-items:center">
+                                                                        <img style="width:40px; height:40px; background-size: contain"
+                                                                             src=@cast.casts.CastPicture alt="">
+                                                                        <div style="margin-left: 10px">
+                                                                    <li> <a href="#"> @cast.casts.CastName @cast.casts.CastSurname</a></li>
+                                                            </div>
+                                                            </picture>
+                                                                    }
+                                                        </ul>
+                                                            }
+                                                            else
+                                                            {
+                                                        <span>NULL</span>
+                                                            }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    }
+   @*  <script src="~/Film-Review-Movie-Database/js/jquery.js"></script>
+    <script src="~/Film-Review-Movie-Database/js/plugins.js"></script>
+    <script src="~/Film-Review-Movie-Database/js/plugins2.js"></script>
+    <script src="~/Film-Review-Movie-Database/js/custom.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> *@
+</body>

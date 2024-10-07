@@ -1,0 +1,34 @@
+﻿@model IEnumerable<EntityLayer.Class.Review_News>
+
+@{
+    ViewData["Title"] = "ListRejectedReviews";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SendingDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReviewTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SendingDate)
+            </td>
+            <td>
+                    <a asp-action="UndoReview" class="btn btn-info" asp-route-id="@item.Review_NewsId">Undo</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

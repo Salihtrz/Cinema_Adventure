@@ -1,0 +1,78 @@
+﻿@model EntityLayer.Class.Contact
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @if (Model != null && Model.ContactEmail != null)
+                {
+                    @Html.DisplayFor(model => model.ContactEmail)
+                }
+                else
+                {
+                    <span>NULL</span>
+                }
+            </td>
+            <td>
+                @if (Model != null && Model.ContactAddress != null)
+                {
+                    <span>
+                        @{
+                            var truncatedContent = Model.ContactAddress.Length > 50 ? Model.ContactAddress.Substring(0, 50) + "..." : Model.ContactAddress;
+                        }
+                        @Html.DisplayFor(model => truncatedContent)
+                    </span>
+                }
+                else
+                {
+                    <span>NULL</span>
+                }
+            </td>
+            <td>
+                @if (Model != null && Model.ContactNumber != null)
+                {
+                    <span>
+                        @{
+                            var truncatedPicture = Model.ContactNumber.Length > 50 ? Model.ContactNumber.Substring(0, 50) + "..." : Model.ContactNumber;
+                        }
+                        @Html.DisplayFor(model => truncatedPicture)
+                    </span>
+                }
+                else
+                {
+                    <span>NULL</span>
+                }
+            </td>
+            <td>
+                @if (Model != null && Model.ContactId != null)
+                {
+                    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.ContactId">Edit</a>
+                    <a asp-action="Details" class="btn btn-info" asp-route-id="@Model.ContactId">Details</a>
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@Model.ContactId">Delete</a>
+                }
+                else
+                {
+                    <span>Not Available</span>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

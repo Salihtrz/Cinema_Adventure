@@ -1,0 +1,42 @@
+﻿@model EntityLayer.Class.News
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="~/css/site.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NewsTitle" class="control-label"></label>
+                <input asp-for="NewsTitle" class="form-control" />
+                <span asp-validation-for="NewsTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewsContent" class="control-label"></label>
+                <textarea asp-for="NewsContent" class="textarea">@Model.NewsContent</textarea>
+                <span asp-validation-for="NewsContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewsPicture" class="control-label"></label>
+                <input asp-for="NewsPicture" class="form-control" />
+                <span asp-validation-for="NewsPicture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SendingDate" class="control-label"></label>
+                <input asp-for="SendingDate" class="form-control" />
+                <span asp-validation-for="SendingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</div>
+

@@ -1,0 +1,102 @@
+﻿@model EntityLayer.Class.Role
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RoleId" />
+            <div class="form-group">
+                <label asp-for="RoleName" class="control-label"></label>
+                <input asp-for="RoleName" class="form-control" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoleDescription" class="control-label"></label>
+                <input asp-for="RoleDescription" class="form-control" />
+                <span asp-validation-for="RoleDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsUser" /> @Html.DisplayNameFor(model => model.IsUser)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsMovieReadAccess" /> @Html.DisplayNameFor(model => model.IsMovieReadAccess)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsMovieWriteAccess" /> @Html.DisplayNameFor(model => model.IsMovieWriteAccess)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsCategoryReadAccess" /> @Html.DisplayNameFor(model => model.IsCategoryReadAccess)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsCategoryWriteAccess" /> @Html.DisplayNameFor(model => model.IsCategoryWriteAccess)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsNewsReadAccess" /> @Html.DisplayNameFor(model => model.IsNewsReadAccess)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsNewsWriteAccess" /> @Html.DisplayNameFor(model => model.IsNewsWriteAccess)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsCastReadAccess" /> @Html.DisplayNameFor(model => model.IsCastReadAccess)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsCastWriteAccess" /> @Html.DisplayNameFor(model => model.IsCastWriteAccess)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsReviewsReadAccess" /> @Html.DisplayNameFor(model => model.IsReviewsReadAccess)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsReviewsWriteAccess" /> @Html.DisplayNameFor(model => model.IsReviewsWriteAccess)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsReview_NewsReadAccess" /> @Html.DisplayNameFor(model => model.IsReview_NewsReadAccess)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsReview_NewsWriteAccess" /> @Html.DisplayNameFor(model => model.IsReview_NewsWriteAccess)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</div>
+

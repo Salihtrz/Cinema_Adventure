@@ -1,0 +1,45 @@
+﻿@model EntityLayer.Class.AboutUs
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="page-single">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9 col-sm-12 col-xs-12">
+				<div class="blog-detail-ct">
+					<br />
+					<br />
+					<h1>@Model.AboutUsTitle</h1>
+					<img src="@Model.AboutUsPicture" alt="">
+					<p>
+						@Model.AboutUsContent
+					</p>
+ 
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-12 col-xs-12">
+				<div class="sidebar">
+					<div class="sb-cate sb-it">
+						<br />
+						<br />
+						<h4 class="sb-title">Categories</h4>
+						<ul>
+							@foreach (var category in ViewBag.CategoriesWithCounts)
+							{
+								<li>
+									<a href="/Movies/CategoryWithMovies/@category.Key.CategoryId">
+										@category.Key.CategoryName (@category.Value)
+									</a>
+								</li>
+							}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

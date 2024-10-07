@@ -1,0 +1,41 @@
+﻿@model EntityLayer.Class.Contact
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <dl class="row">
+        <div class="col-sm-12">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ContactEmail)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ContactEmail)
+            </dd>
+        </div>
+        <div class="col-sm-12">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ContactAddress)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ContactAddress)
+            </dd>
+        </div>
+        <div class="col-sm-12">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ContactNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ContactNumber)
+            </dd>
+        </div>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ContactId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </form>
+</div>

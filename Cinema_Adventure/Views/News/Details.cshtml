@@ -1,0 +1,126 @@
+﻿@model IEnumerable<EntityLayer.Class.News>
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body>
+	<div class="hero common-hero">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="hero-ct">
+						<ul class="breadcumb">
+							<li class="active"><a href="/News/Index/">News</a></li>
+							<li> <span class="ion-ios-arrow-right"></span>Detail</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- blog detail section-->
+	@foreach(var news in Model)
+	{
+	<div class="page-single">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9 col-sm-12 col-xs-12">
+					<div class="blog-detail-ct">
+						<h1>@news.NewsTitle</h1>
+						<div><span class="time">@news.SendingDate</span></div>
+						<img src="@news.NewsPicture" alt="">
+						<p>
+							@news.NewsContent
+						</p>
+						<!-- share link -->
+						<div class="flex-it share-tag">
+							<div class="social-link">
+								<h4>Share it</h4>
+								<a href="#"><i class="ion-social-facebook"></i></a>
+								<a href="#"><i class="ion-social-twitter"></i></a>
+								<a href="#"><i class="ion-social-googleplus"></i></a>
+								<a href="#"><i class="ion-social-pinterest"></i></a>
+								<a href="#"><i class="ion-social-linkedin"></i></a>
+							</div>
+						</div>
+						<!-- comment items -->
+						<div class="comments">
+							<h4>@news.reviews_News.Where(i => i.Visibility == true).Count() Comments</h4>
+								@foreach(var reviews in news.reviews_News)
+								{
+									@if(reviews.Visibility == true)
+									{
+										<div class="cmt-item flex-it">
+											<img src="" alt="">
+											<div class="author-infor">
+												<div class="flex-it2">
+													<h6><a href="#">@reviews.users.UserName</a></h6> <span class="time"> - @reviews.SendingDate</span>
+												</div>
+												<p>@reviews.ReviewTitle</p>
+												<p>@reviews.ReviewContent</p>
+											</div>
+										</div>
+									}
+									
+									
+								}
+								
+						</div>
+						<div class="comment-form">
+							<h4>Leave a comment</h4>
+							<form method="post" asp-action="Create" asp-controller="Review_News">
+								<div class="row">
+									<div class="col-md-6">
+										<input name="ReviewTitle" type="text" placeholder="Title">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<textarea name="ReviewContent" placeholder="Message"></textarea>
+									</div>
+								</div>
+								<input type="hidden" name="NewsId" value="@news.NewsId">
+								<input class="submit" type="submit" placeholder="submit" />
+							</form>
+						</div>
+						<!-- comment form -->
+					</div>
+				</div>
+					
+				<div class="col-md-3 col-sm-12 col-xs-12">
+					<div class="sidebar">
+						<div class="sb-cate sb-it">
+							<h4 class="sb-title">Categories</h4>
+							<ul>
+								@foreach (var category in ViewBag.CategoriesWithCounts)
+								{
+									<li>
+										<a href="/Movies/CategoryWithMovies/@category.Key.CategoryId">
+											@category.Key.CategoryName (@category.Value)
+										</a>
+									</li>
+								}
+							</ul>
+						</div>
+						<div class="sb-recentpost sb-it">
+							<h4 class="sb-title">most popular</h4>
+							<div class="recent-item">
+								<span>01</span><h6><a href="#">Korea Box Office: Beauty and the Beast Wins Fourth</a></h6>
+							</div>
+							<div class="recent-item">
+								<span>02</span><h6><a href="#">Homeland Finale Includes Shocking Death </a></h6>
+							</div>
+							<div class="recent-item">
+								<span>03</span><h6><a href="#">Fate of the Furious Reviews What the Critics Saying</a></h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	}
+	<!-- end of  blog detail section-->
+</body>
+</html>

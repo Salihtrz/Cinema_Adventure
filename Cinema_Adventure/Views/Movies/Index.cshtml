@@ -1,0 +1,156 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<EntityLayer.Class.Movie>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct">
+                    <h1>MOVİES</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-single">
+    <div class="container">
+        <div class="row ipad-width">
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="topbar-filter">
+                    <p>Found <span>@ViewBag.TotalMovies</span> in total</p>
+                </div>
+                
+                    <div class="flex-wrap-movielist">
+                    @foreach (var movies in Model)
+                    {
+                        <div class="movie-item-style-2 movie-item-style-1">
+                            <img src="@movies.MoviePicture" style="height:250px" alt="">
+                            <div class="hvr-inner">
+                                <a href="/Movies/Details/@movies.MovieId"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                            </div>
+                            <div class="mv-item-infor">
+                                <h6><a href="#">@movies.MovieName</a></h6>
+                                @{
+                                    int? totalvote = 0;
+                                    int? totalscore = 0;
+                                    @foreach (var review in movies.Reviews)
+                                    {
+                                        totalvote++;
+                                        totalscore = totalscore + review.VoteGiven;
+
+                                    }
+                                    double? averagescore = 0;
+                                    @if (totalvote == 0)
+                                    {
+                                        averagescore = 0;
+                                    }
+                                    else
+                                    {
+                                        averagescore = totalscore / totalvote;
+                                    }
+                                }
+                                <p class="rate"><i class="ion-android-star"></i><span>@averagescore</span> /10</p>
+                            </div>
+                        </div>
+                    }
+                    </div>
+                
+                
+                <div class="topbar-filter">
+                    <div class="pagination2">
+                        <span>Page @ViewBag.CurrentPage of @ViewBag.TotalPages:</span>
+                        @{
+                            var queryString = HttpContextAccessor.HttpContext.Request.Query;
+                            var ratingRange = queryString["ratingRange"];
+                            var sortOrder = queryString["sortOrder"];
+                            var yearFrom = queryString["yearFrom"];
+                            var yearTo = queryString["yearTo"];
+                            var movieName = queryString["movieName"];
+                        }
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <a class="@(i == ViewBag.CurrentPage ? "active" : "")" href="@Url.Action("Index", new { page = i, pageSize = ViewBag.PageSize, ratingRange = ratingRange, sortOrder = sortOrder, yearFrom = yearFrom, yearTo = yearTo, movieName = movieName })">@i</a>
+                        }
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1, pageSize = ViewBag.PageSize, ratingRange = ratingRange, sortOrder = sortOrder, yearFrom = yearFrom, yearTo = yearTo, movieName = movieName })"><i class="ion-arrow-right-b"></i></a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="sidebar">
+                    <div class="searh-form">
+                        <h4 class="sb-title">Search for movie</h4>
+                        <form class="form-style-1" action="#">
+                            <div class="row">
+                                <div class="col-md-12 form-it">
+                                    <label>Movie name</label>
+                                    <input type="text" name="movieName" placeholder="Enter keywords">
+                                </div>
+                                <div class="col-md-12 form-it">
+                                    <label>Rating Range</label>
+                                    <select name="ratingRange">
+                                        <option value="">Select rating range</option>
+                                        <option value="0-3">0-3</option>
+                                        <option value="4-6">4-6</option>
+                                        <option value="7-10">7-10</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 form-it">
+                                    <label>Release Year</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <select name="yearFrom">
+                                                <option value="">From</option>
+                                                @for (int year = DateTime.Now.Year; year >= 1900; year--)
+                                                {
+                                                    <option value="@year">@year</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select name="yearTo">
+                                                <option value="">To</option>
+                                                @for (int year = DateTime.Now.Year; year >= 1900; year--)
+                                                {
+                                                    <option value="@year">@year</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-it">
+                                    <label>Sort by:</label>
+                                    <select name="sortOrder">
+                                        <option value="">Select Sort</option>
+                                        <option value="alphabetDesc">alphabet Descending</option>
+                                        <option value="alphabetAsc">alphabet Ascending</option>
+                                        <option value="ratingDesc">Rating Descending</option>
+                                        <option value="ratingAsc">Rating Ascending</option>
+                                        <option value="dateDesc">Release date Descending</option>
+                                        <option value="dateAsc">Release date Ascending</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 form-it">
+                                    <label>Movies per page:</label>
+                                    <select name="pageSize">
+                                        <option value="5">5 Movies</option>
+                                        <option value="10">10 Movies</option>
+                                        <option value="20">20 Movies</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 ">
+                                    <input class="submit" type="submit" value="submit">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

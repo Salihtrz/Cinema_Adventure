@@ -1,0 +1,72 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+@model IEnumerable<EntityLayer.Class.Movie>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Movie Name
+            </th>
+            <th>
+                Category Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (Model != null && item.MovieName != null )
+                    {
+                    @Html.DisplayFor(modelItem => item.MovieName)
+                    }
+                    else
+                    {
+                        <span>NULL</span>
+                    }
+                </td>
+                @{
+                    int categoryCount = item.MovieCategories.Count();
+                    int counter = 1;
+                }
+                <td>
+                    @foreach(var category in item.MovieCategories)
+                    {
+                        @if (category.categorys != null && category.CategoryId != null)
+                        {
+                            @Html.DisplayFor(modelItem => category.categorys.CategoryName)<a> </a>
+                            counter++;
+                            if (counter <= categoryCount)
+                            {
+                                @:,
+                            }
+                        }
+                        else
+                        {
+                            <span>NULL</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @if (HttpContextAccessor.HttpContext.Session.GetInt32("IsAdmin") == 1 ||
+                   HttpContextAccessor.HttpContext.Session.GetInt32("IsMovieWriteAccess") == 1)
+                    {
+                        <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.MovieId">Edit</a>
+                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.MovieId">Delete</a>
+                    }
+                        <a asp-action="Details" class="btn btn-info" asp-route-id="@item.MovieId">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,9 @@
+﻿@model List<EntityLayer.Class.Category>
+
+@if(TempData["categorys"] as List<EntityLayer.Class.Category> != null)
+{
+    @foreach(var item in TempData["categorys"] as List<EntityLayer.Class.Category>)
+    {
+        <a class="d-block" href="/Movies/CategoryWithMovies/@item.CategoryId">@item.CategoryName</a>
+    }
+}

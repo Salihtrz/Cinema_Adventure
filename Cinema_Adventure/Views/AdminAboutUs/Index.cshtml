@@ -1,0 +1,78 @@
+﻿@model EntityLayer.Class.AboutUs
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AboutUsTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AboutUsContent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AboutUsPicture)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @if (Model != null && Model.AboutUsTitle != null)
+                {
+                    @Html.DisplayFor(model => model.AboutUsTitle)
+                }
+                else
+                {
+                    <span>NULL</span>
+                }
+            </td>
+            <td>
+                @if (Model != null && Model.AboutUsContent != null)
+                {
+                    <span>
+                        @{
+                            var truncatedContent = Model.AboutUsContent.Length > 50 ? Model.AboutUsContent.Substring(0, 50) + "..." : Model.AboutUsContent;
+                        }
+                        @Html.DisplayFor(model => truncatedContent)
+                    </span>
+                }
+                else
+                {
+                    <span>NULL</span>
+                }
+            </td>
+            <td>
+                @if (Model != null && Model.AboutUsPicture != null)
+                {
+                    <span>
+                        @{
+                            var truncatedPicture = Model.AboutUsPicture.Length > 50 ? Model.AboutUsPicture.Substring(0, 50) + "..." : Model.AboutUsPicture;
+                        }
+                        @Html.DisplayFor(model => truncatedPicture)
+                    </span>
+                }
+                else
+                {
+                    <span>NULL</span>
+                }
+            </td>
+            <td>
+                @if (Model != null && Model.AboutUsId != null)
+                {
+                    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.AboutUsId">Edit</a>
+                    <a asp-action="Details" class="btn btn-info" asp-route-id="@Model.AboutUsId">Details</a>
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@Model.AboutUsId">Delete</a>
+                }
+                else
+                {
+                    <span>Not Available</span>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

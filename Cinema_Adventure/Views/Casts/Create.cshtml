@@ -1,0 +1,72 @@
+﻿@model EntityLayer.Class.Cast
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CastName" class="control-label"></label>
+                <input asp-for="CastName" class="form-control" />
+                <span asp-validation-for="CastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CastSurname" class="control-label"></label>
+                <input asp-for="CastSurname" class="form-control" />
+                <span asp-validation-for="CastSurname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CastPicture" class="control-label"></label>
+                <input asp-for="CastPicture" class="form-control" />
+                <span asp-validation-for="CastPicture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</div>
+
+
+
+
+
+
+
+
+@* @model EntityLayer.Class.MovieCast
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="casts.CastName" class="control-label"></label>
+                <input asp-for="casts.CastName" class="form-control" />
+                <span asp-validation-for="casts.CastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="casts.CastSurname" class="control-label"></label>
+                <input asp-for="casts.CastSurname" class="form-control" />
+                <span asp-validation-for="casts.CastSurname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</div> *@

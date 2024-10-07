@@ -1,0 +1,38 @@
+﻿@model EntityLayer.Class.Contact
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div>
+    <dl class="row">
+        <div class="col-sm-12">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ContactEmail)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ContactEmail)
+            </dd>
+        </div>
+        <div class="col-sm-12">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ContactAddress)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ContactAddress)
+            </dd>
+        </div>
+        <div class="col-sm-12">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.ContactNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ContactNumber)
+            </dd>
+        </div>
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</div>

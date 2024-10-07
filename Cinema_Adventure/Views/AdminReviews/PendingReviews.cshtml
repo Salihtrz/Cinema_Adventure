@@ -1,0 +1,36 @@
+﻿@model IEnumerable<EntityLayer.Class.Review>
+
+@{
+    ViewData["Title"] = "PendingReviews";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SendingDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReviewTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SendingDate)
+            </td>
+            <td>
+                    <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.ReviewId">Edit</a>
+                    <a asp-action="ApproveReviews" class="btn btn-success" asp-route-id="@item.ReviewId">Approve</a>
+                    <a asp-action="RejectReviews" class="btn btn-danger" asp-route-id="@item.ReviewId">Reject</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

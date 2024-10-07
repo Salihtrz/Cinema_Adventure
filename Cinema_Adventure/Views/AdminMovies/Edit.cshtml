@@ -1,0 +1,166 @@
+﻿@* @model EntityLayer.Class.MovieCast
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="~/css/site.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" onsubmit="return validateForm2()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="movies.MovieId" />
+            <input type="hidden" asp-for="MovieCastId" />
+            <input type="hidden" asp-for="casts.CastId" />
+            <div class="form-group">
+                <label asp-for="movies.MovieName" class="control-label"></label>
+                <input asp-for="movies.MovieName" class="form-control" />
+                <span asp-validation-for="movies.MovieName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="movies.MovieContent" class="control-label"></label>
+                <textarea asp-for="movies.MovieContent" class="textarea">@Model.movies.MovieContent</textarea>
+                <span asp-validation-for="movies.MovieContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="movies.MoviePicture" class="control-label"></label>
+                <input asp-for="movies.MoviePicture" class="form-control" />
+                <span asp-validation-for="movies.MoviePicture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="movies.ReleaseCountry" class="control-label"></label>
+                <input asp-for="movies.ReleaseCountry" class="form-control" />
+                <span asp-validation-for="movies.ReleaseCountry" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="movies.MovieRunTime" class="control-label"></label>
+                <input asp-for="movies.MovieRunTime" class="form-control" />
+                <span asp-validation-for="movies.MovieRunTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="movies.ReleaseDate" class="control-label"></label>
+                <input asp-for="movies.ReleaseDate" class="form-control" />
+                <span asp-validation-for="movies.ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="casts.CastName" class="control-label">Cast</label>
+                <select id="castDropdown" class="form-control" asp-items="ViewBag.MovieCastId"></select>
+            </div>
+            <div>
+                <textarea id="selectedCastsTextArea" class="form-control" rows="4" readonly></textarea>
+                <ul id="selectedCastsList" style="list-style-type: none; padding: 0;"></ul>
+            </div>
+            <div class="form-group">
+                <label asp-for="movies.CategoryId" class="control-label"></label>
+                <select asp-for="movies.CategoryId" class="form-control" asp-items="ViewBag.CategoryId">
+                    <option value="">Select Category</option>
+                </select>
+                <span asp-validation-for="movies.CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script src="~/js/site.js"></script> *@
+
+
+
+
+
+
+@model EntityLayer.Class.Movie
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="~/css/site.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MovieId" />
+            <div class="form-group">
+                <label asp-for="MovieName" class="control-label"></label>
+                <input asp-for="MovieName" class="form-control" />
+                <span asp-validation-for="MovieName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MovieContent" class="control-label"></label>
+                <textarea asp-for="MovieContent" class="textarea">@Model.MovieContent</textarea>
+                <span asp-validation-for="MovieContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MoviePicture" class="control-label"></label>
+                <input asp-for="MoviePicture" class="form-control" />
+                <span asp-validation-for="MoviePicture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VideoLink" class="control-label"></label>
+                <input asp-for="VideoLink" class="form-control" />
+                <span asp-validation-for="VideoLink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseCountry" class="control-label"></label>
+                <input asp-for="ReleaseCountry" class="form-control" />
+                <span asp-validation-for="ReleaseCountry" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MovieRunTime" class="control-label"></label>
+                <input asp-for="MovieRunTime" class="form-control" />
+                <span asp-validation-for="MovieRunTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseDate" class="control-label"></label>
+                <input asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="selectedCastId" class="control-label">Casts</label>
+                <p>Press CTRL for multiple selection</p>
+                <select id="selectedCastId" name="selectedCastId" class="form-control" multiple>
+                    @foreach (var cast in ViewBag.CastId)
+                    {
+                        <option value="@cast.Value">@cast.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="selectedCategoryId" class="control-label">Categories</label>
+                <p>Press CTRL for multiple selection</p>
+                <select id="selectedCategoryId" name="selectedCategoryId" class="form-control" multiple>
+                    @foreach (var Category in ViewBag.CategoryId)
+                    {
+                        <option value="@Category.Value">@Category.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script src="~/js/site.js"></script>
